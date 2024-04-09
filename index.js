@@ -14,11 +14,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
-
-mongoose.connect(config.db.uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
+module.exports = app;
+mongoose.connect(config.db.uri).then(() => {
     console.log('MongoDB connected successfully');
 }).catch(err => {
     console.error('MongoDB connection error:', err);
