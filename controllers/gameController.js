@@ -11,12 +11,23 @@ exports.createGame = async (req, res) => {
 
 exports.getAllGames = async (req, res) => {
     try {
-        const games = await Game.find();
-        res.status(200).json(games);
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
+        const games = await Game.find().skip(skip).limit(limit);
+        const total = await Game.countDocuments();
+
+        res.status(200).json({
+            total,
+            pages: Math.ceil(total / limit),
+            currentPage: page,
+            games
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-};
+}
 
 exports.getGame = async (req, res) => {
     try {

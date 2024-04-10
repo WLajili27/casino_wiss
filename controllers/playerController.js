@@ -80,3 +80,21 @@ exports.leaveGame = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+//returns games per player
+exports.getGamesByPlayer = async (req, res) => {
+  try {
+    const { playerId } = req.params; // the player ID is passed in URL parameter
+    const { page, limit } = req.query;
+
+    const player = await Player.findById(playerId);
+    if (!player) {
+      return res.status(404).json({ message: 'Player not found' });
+    }
+
+    const games = await player.listGamesPerPlayer(parseInt(page), parseInt(limit));
+    res.status(200).json(games);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

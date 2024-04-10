@@ -38,6 +38,16 @@ const playerSchema = new mongoose.Schema({
   }
 });
 
+// method to return games per player
+playerSchema.methods.listGamesPerPlayer = async function(page = 1, limit = 10) {
+  const skip = (page - 1) * limit;
+
+  return Game.find({ _id: { $in: this.games } })
+    .skip(skip)
+    .limit(limit)
+    .exec(); // Execute the query
+};
+
 
 const Player = mongoose.model('Player', playerSchema);
 

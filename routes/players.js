@@ -18,7 +18,10 @@ router.put('/:id', playerController.updatePlayer);
 router.delete('/:id', playerController.deletePlayer);
 
 // routes for interactions with games
-router.post('/:id/games/:gameId', playerController.joinGame);
-router.delete('/:id/games/:gameId', playerController.leaveGame);
+router.put('/:id/join/:gameId', playerController.joinGame);  // join game
+router.put('/:id/leave/:gameId', playerController.leaveGame); // leave game
+
+router.get('/players/:playerId/games', playerController.getGamesByPlayer); // list games for player
+
 
 module.exports = router;
