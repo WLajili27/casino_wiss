@@ -4,6 +4,7 @@ const { mongoTestConfig } = require('../../config/config');
 
 beforeAll(async () => {
     await mongoose.connect(mongoTestConfig.uri);
+    await User.deleteMany();
 });
 
 afterAll(async () => {
